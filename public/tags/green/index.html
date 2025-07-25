@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<title>Green | DataDan</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+
+
+      <script src="/js/main.js"></script>
+
+
+</head>
+<body>
+  <header>
+    
+<div id="boot-sequence" style="margin: 1em 0;">
+  <span id="boot-text"></span><span id="global-cursor" class="footer-cursor">█</span>
+</div>
+<div id="bio-content" style="display:none;">
+  <span id="bio-text"></span>
+</div>
+<style>
+.footer-cursor {
+  color: #FFEB3B;
+  font-weight: bold;
+  animation: blink-footer-cursor 0.7s steps(1) infinite;
+}
+@keyframes blink-footer-cursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+</style>
+<script>
+  
+  const bootLines = [
+    'Initializing system...',
+    'Compiling profile...',
+    "Hi, I'm Dan!"
+  ];
+  const bioLine = 'Product Manager that likes to constantly learn new stuff passionate about machine learning and cybersecurity.';
+  const bootText = document.getElementById('boot-text');
+  const bioText = document.getElementById('bio-text');
+  const bioContent = document.getElementById('bio-content');
+  const globalCursor = document.getElementById('global-cursor');
+  let lineIdx = 0;
+  let charIdx = 0;
+  window.skipAnimations = false;
+
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && (e.key === 'x' || e.key === 'X')) {
+      window.skipAnimations = true;
+    }
+  });
+
+  function revealAll() {
+    bootText.textContent = bootLines[bootLines.length-1];
+    bioContent.style.display = '';
+    bioText.textContent = bioLine;
+    if (window.typeAllSections) window.typeAllSections();
+  }
+
+  function typeLine() {
+    if (window.skipAnimations) return revealAll();
+    if (lineIdx < bootLines.length) {
+      const currentLine = bootLines[lineIdx];
+      if (charIdx <= currentLine.length) {
+        bootText.textContent = currentLine.slice(0, charIdx);
+        charIdx++;
+        setTimeout(typeLine, 40);
+      } else {
+        lineIdx++;
+        charIdx = 0;
+        setTimeout(typeLine, 600);
+      }
+    } else {
+      
+      bioContent.style.display = '';
+      setTimeout(typeBio, 200);
+    }
+  }
+
+  let bioCharIdx = 0;
+  function typeBio() {
+    if (window.skipAnimations) return revealAll();
+    if (bioCharIdx <= bioLine.length) {
+      bioText.textContent = bioLine.slice(0, bioCharIdx);
+      bioCharIdx++;
+      setTimeout(typeBio, 40);
+    } else {
+      
+      if (window.typeAllSections) window.typeAllSections();
+    }
+  }
+  typeLine();
+</script>
+
+  </header>
+  <main>
+    
+  <h1>Green</h1>
+  
+  
+    <h2><a href="/posts/post-3/">Post 3</a></h2>
+  
+    <h2><a href="/posts/post-2/">Post 2</a></h2>
+  
+
+  </main>
+  <footer>
+    <div id="footer-content" style="display:none; margin-top:1.25em;">
+  <span id="footer-copyright"></span><br>
+  <span id="footer-theme"></span>
+  <div id="snake-game-trigger-section" style="margin-top:2em; text-align:center; display:none;">
+    <button id="snake-game-btn" class="button" style="font-size:1.1em; background:none; color:#FFEB3B; border:1px solid #FFEB3B; margin:0 auto;">Want to play Snake?</button>
+  </div>
+</div>
+<div id="game-modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.92); z-index:9999; align-items:center; justify-content:center;">
+  <div id="game-modal-content" style="position:relative; margin:auto; background:#000; border:2px solid #33FF33; border-radius:10px; box-shadow:0 0 24px #33FF33; padding:2em 1.5em 1.5em 1.5em; max-width:420px; min-width:280px;">
+    <button id="close-game-modal" style="position:absolute; top:0.5em; right:0.7em; background:none; border:none; color:#FFEB3B; font-size:1.5em; cursor:pointer;">&times;</button>
+    <div id="game-modal-inner"></div>
+  </div>
+</div>
+<style>
+.footer-cursor {
+  color: #FFEB3B;
+  font-weight: bold;
+  animation: blink-footer-cursor 0.7s steps(1) infinite;
+}
+@keyframes blink-footer-cursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+#snake-game-btn.button {
+  background: none;
+  color: #FFEB3B;
+  border: 1px solid #FFEB3B;
+  font-family: inherit;
+  padding: 0.4em 1.2em;
+  cursor: pointer;
+  text-transform: uppercase;
+  margin: 0.5em 0;
+  text-shadow: 0 0 4px #FFEB3B;
+  transition: background 0.2s, color 0.2s;
+}
+#snake-game-btn.button:hover {
+  background: #222;
+  color: #33FF33;
+  border-color: #33FF33;
+  text-shadow: 0 0 6px #33FF33;
+}
+#game-modal-overlay { display: flex; }
+#game-modal-content { box-sizing: border-box; }
+#game-modal-content button.button { margin: 0.5em 0.5em 0 0; }
+#game-mobile-controls { display: flex; flex-direction: column; align-items: center; margin-top: 1em; }
+#game-mobile-controls-row { display: flex; flex-direction: row; }
+.game-arrow-btn {
+  background: #111;
+  color: #FFEB3B;
+  border: 1px solid #33FF33;
+  font-size: 1.5em;
+  width: 2.5em;
+  height: 2.5em;
+  margin: 0.2em;
+  border-radius: 0.4em;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 0 6px #33FF33;
+  transition: background 0.2s, color 0.2s;
+}
+.game-arrow-btn:active {
+  background: #33FF33;
+  color: #111;
+}
+@media (max-width: 600px) {
+  #game-modal-content { max-width: 98vw; min-width: 0; padding: 1em 0.2em 1em 0.2em; }
+}
+</style>
+<script>
+window.typeFooter = function(cursor) {
+  const copyrightStart = 'Copyright ';
+  const copyrightEnd = '. All rights reserved.';
+  const theme = 'Theme: Retro Terminal by Dan Fernandez with <3 from Cursor';
+  const copyrightSpan = document.getElementById('footer-copyright');
+  const themeSpan = document.getElementById('footer-theme');
+  const footerDiv = document.getElementById('footer-content');
+  footerDiv.style.display = '';
+
+  function moveCursorTo(target, cursor) {
+    if (!target || !cursor) return;
+    target.parentNode.insertBefore(cursor, target.nextSibling);
+  }
+
+  
+  let year = 1990;
+  function animateYear() {
+    copyrightSpan.textContent = copyrightStart + year;
+    moveCursorTo(copyrightSpan, cursor);
+    if (year < 2025) {
+      setTimeout(() => {
+        year++;
+        animateYear();
+      }, 100);
+    } else {
+      
+      setTimeout(() => {
+        copyrightSpan.textContent = copyrightStart + '∞' + copyrightEnd;
+        moveCursorTo(copyrightSpan, cursor);
+        setTimeout(typeTheme, 600);
+      }, 600);
+    }
+  }
+
+  
+  let tIdx = 0;
+  function typeTheme() {
+    if (tIdx <= theme.length) {
+      themeSpan.textContent = theme.slice(0, tIdx);
+      moveCursorTo(themeSpan, cursor);
+      tIdx++;
+      setTimeout(typeTheme, 40);
+    } else {
+      moveCursorTo(themeSpan, cursor);
+      
+      document.getElementById('snake-game-trigger-section').style.display = '';
+    }
+  }
+
+  
+  copyrightSpan.textContent = copyrightStart;
+  moveCursorTo(copyrightSpan, cursor);
+  animateYear();
+
+  
+  const overlay = document.getElementById('game-modal-overlay');
+  const modalInner = document.getElementById('game-modal-inner');
+  const closeBtn = document.getElementById('close-game-modal');
+  const btn = document.getElementById('snake-game-btn');
+
+  btn.onclick = function() {
+    overlay.style.display = 'flex';
+    if (!window.snakeGameLoaded) {
+      window.snakeGameLoaded = true;
+      loadSnakeGame();
+    } else {
+      loadSnakeGame();
+    }
+  };
+  closeBtn.onclick = function() {
+    overlay.style.display = 'none';
+    document.activeElement.blur();
+  };
+
+  
+  function loadSnakeGame() {
+    modalInner.innerHTML = `
+      <h3 style="color:#33FF33; font-family:inherit; text-align:center; margin:0 0 1em 0;">Snake Game</h3>
+      <canvas id="snake-canvas" width="320" height="320" style="display:block; margin:0 auto; background:#111; border:1px solid #33FF33;"></canvas>
+      <div style="color:#FFEB3B; text-align:center; margin-top:0.5em; font-size:1em;">
+        Use arrow keys or WASD to move. Press Esc to exit.
+        <button id='restart-snake' class='button' style='margin-left:1em;'>Restart</button>
+      </div>
+      <div id="snake-score" style="color:#33FF33; text-align:center; margin-top:0.5em;">Score: 0</div>
+      <div id="game-mobile-controls"></div>
+    `;
+    startSnakeGame();
+    document.getElementById('restart-snake').onclick = function() { loadSnakeGame(); };
+    renderMobileControls();
+  }
+
+  
+  function startSnakeGame() {
+    const canvas = document.getElementById('snake-canvas');
+    const ctx = canvas.getContext('2d');
+    const gridSize = 16;
+    const tileCount = 20;
+    let snake = [{x:10, y:10}];
+    let direction = {x:1, y:0};
+    let food = {x:5, y:5};
+    let score = 0;
+    let gameOver = false;
+    let moveQueue = [];
+    let interval;
+
+    
+    const beep = () => { const a = new AudioContext(); const o = a.createOscillator(); o.type = 'square'; o.frequency.value = 440; o.connect(a.destination); o.start(); o.stop(a.currentTime + 0.08); };
+    const eat = () => { const a = new AudioContext(); const o = a.createOscillator(); o.type = 'triangle'; o.frequency.value = 660; o.connect(a.destination); o.start(); o.stop(a.currentTime + 0.12); };
+    const die = () => { const a = new AudioContext(); const o = a.createOscillator(); o.type = 'sawtooth'; o.frequency.value = 120; o.connect(a.destination); o.start(); o.stop(a.currentTime + 0.3); };
+
+    function draw() {
+      ctx.fillStyle = '#111';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.fillStyle = '#FFEB3B';
+      ctx.fillRect(food.x*gridSize, food.y*gridSize, gridSize, gridSize);
+      
+      for (let i=0; i<snake.length; i++) {
+        ctx.fillStyle = i===0 ? '#33FF33' : '#229922';
+        ctx.fillRect(snake[i].x*gridSize, snake[i].y*gridSize, gridSize, gridSize);
+      }
+    }
+
+    function placeFood() {
+      let newFood;
+      do {
+        newFood = {x: Math.floor(Math.random()*tileCount), y: Math.floor(Math.random()*tileCount)};
+      } while (snake.some(s => s.x === newFood.x && s.y === newFood.y));
+      food = newFood;
+    }
+
+    function step() {
+      if (moveQueue.length) {
+        direction = moveQueue.shift();
+      }
+      const newHead = {x: snake[0].x + direction.x, y: snake[0].y + direction.y};
+      
+      if (newHead.x < 0 || newHead.x >= tileCount || newHead.y < 0 || newHead.y >= tileCount) {
+        die();
+        clearInterval(interval);
+        gameOver = true;
+        showGameOver();
+        return;
+      }
+      
+      if (snake.some(s => s.x === newHead.x && s.y === newHead.y)) {
+        die();
+        clearInterval(interval);
+        gameOver = true;
+        showGameOver();
+        return;
+      }
+      snake.unshift(newHead);
+      
+      if (newHead.x === food.x && newHead.y === food.y) {
+        score++;
+        document.getElementById('snake-score').textContent = 'Score: ' + score;
+        eat();
+        placeFood();
+      } else {
+        snake.pop();
+      }
+      draw();
+    }
+
+    function showGameOver() {
+      ctx.fillStyle = '#FFEB3B';
+      ctx.font = 'bold 2em IBM Plex Mono, monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2);
+      ctx.font = '1em IBM Plex Mono, monospace';
+      ctx.fillText('Press Esc to exit', canvas.width/2, canvas.height/2+32);
+    }
+
+    function handleKey(e) {
+      if (gameOver && e.key === 'Escape') {
+        document.getElementById('game-modal-overlay').style.display = 'none';
+        document.getElementById('snake-game-trigger-section').style.display = '';
+        window.removeEventListener('keydown', handleKey);
+        return;
+      }
+      if (gameOver) return;
+      let d = direction;
+      if (e.key === 'ArrowUp' || e.key === 'w') d = {x:0, y:-1};
+      else if (e.key === 'ArrowDown' || e.key === 's') d = {x:0, y:1};
+      else if (e.key === 'ArrowLeft' || e.key === 'a') d = {x:-1, y:0};
+      else if (e.key === 'ArrowRight' || e.key === 'd') d = {x:1, y:0};
+      else return;
+      
+      if (snake.length > 1 && (d.x === -direction.x && d.y === -direction.y)) return;
+      moveQueue.push(d);
+      beep();
+    }
+
+    window.addEventListener('keydown', handleKey);
+    draw();
+    interval = setInterval(step, 180);
+  }
+
+  
+  function renderMobileControls() {
+    const controls = document.getElementById('game-mobile-controls');
+    if (!controls) return;
+    controls.innerHTML = `
+      <div id='game-mobile-controls-row'>
+        <button class='game-arrow-btn' data-dir='up'>&uarr;</button>
+      </div>
+      <div id='game-mobile-controls-row'>
+        <button class='game-arrow-btn' data-dir='left'>&larr;</button>
+        <button class='game-arrow-btn' data-dir='down'>&darr;</button>
+        <button class='game-arrow-btn' data-dir='right'>&rarr;</button>
+      </div>
+    `;
+    controls.querySelectorAll('.game-arrow-btn').forEach(btn => {
+      btn.onclick = function() {
+        const dir = btn.getAttribute('data-dir');
+        const e = new KeyboardEvent('keydown', {
+          key: dir === 'up' ? 'ArrowUp' : dir === 'down' ? 'ArrowDown' : dir === 'left' ? 'ArrowLeft' : 'ArrowRight'
+        });
+        window.dispatchEvent(e);
+      };
+    });
+  }
+}
+</script>
+
+  </footer>
+</body>
+</html>

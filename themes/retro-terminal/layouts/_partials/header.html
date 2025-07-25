@@ -1,0 +1,81 @@
+<!-- Booting Sequence Animation with Typing Effect and Global Cursor -->
+<div id="boot-sequence" style="margin: 1em 0;">
+  <span id="boot-text"></span><span id="global-cursor" class="footer-cursor">█</span>
+</div>
+<div id="bio-content" style="display:none;">
+  <span id="bio-text"></span>
+</div>
+<style>
+.footer-cursor {
+  color: #FFEB3B;
+  font-weight: bold;
+  animation: blink-footer-cursor 0.7s steps(1) infinite;
+}
+@keyframes blink-footer-cursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+</style>
+<script>
+  // Typing animation for boot sequence and bio, with global cursor
+  const bootLines = [
+    'Initializing system...',
+    'Compiling profile...',
+    "Hi, I'm Dan!"
+  ];
+  const bioLine = 'Product Manager that likes to constantly learn new stuff passionate about machine learning and cybersecurity.';
+  const bootText = document.getElementById('boot-text');
+  const bioText = document.getElementById('bio-text');
+  const bioContent = document.getElementById('bio-content');
+  const globalCursor = document.getElementById('global-cursor');
+  let lineIdx = 0;
+  let charIdx = 0;
+  window.skipAnimations = false;
+
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && (e.key === 'x' || e.key === 'X')) {
+      window.skipAnimations = true;
+    }
+  });
+
+  function revealAll() {
+    bootText.textContent = bootLines[bootLines.length-1];
+    bioContent.style.display = '';
+    bioText.textContent = bioLine;
+    if (window.typeAllSections) window.typeAllSections();
+  }
+
+  function typeLine() {
+    if (window.skipAnimations) return revealAll();
+    if (lineIdx < bootLines.length) {
+      const currentLine = bootLines[lineIdx];
+      if (charIdx <= currentLine.length) {
+        bootText.textContent = currentLine.slice(0, charIdx);
+        charIdx++;
+        setTimeout(typeLine, 40);
+      } else {
+        lineIdx++;
+        charIdx = 0;
+        setTimeout(typeLine, 600);
+      }
+    } else {
+      // Reveal and type the bio, but leave the cursor after 'Hi, I\'m Dan!'
+      bioContent.style.display = '';
+      setTimeout(typeBio, 200);
+    }
+  }
+
+  let bioCharIdx = 0;
+  function typeBio() {
+    if (window.skipAnimations) return revealAll();
+    if (bioCharIdx <= bioLine.length) {
+      bioText.textContent = bioLine.slice(0, bioCharIdx);
+      bioCharIdx++;
+      setTimeout(typeBio, 40);
+    } else {
+      // Start the main sections, but do not move the cursor
+      if (window.typeAllSections) window.typeAllSections();
+    }
+  }
+  typeLine();
+</script>

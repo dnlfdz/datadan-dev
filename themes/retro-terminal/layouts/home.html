@@ -1,0 +1,130 @@
+{{ define "main" }}
+<div id="terminal-sections"></div>
+<script>
+// Terminal prompt sections and their links
+const sections = [
+  {
+    prompt: '> open professional discourse',
+    link: { href: 'https://www.linkedin.com/in/dafnz/', text: 'Visit my LinkedIn profile →' }
+  },
+  {
+    prompt: '> open spoken content',
+    link: { href: 'https://open.spotify.com/show/3j5EEcrZph99Sy8iMkUFVq', text: 'Visit my Podcast →' }
+  },
+  {
+    prompt: '> open written thoughts',
+    link: { href: 'https://danielfernandez.medium.com/', text: 'Visit my Medium blog →' }
+  },
+  {
+    prompt: '> open bad code',
+    link: { href: 'https://github.com/dnlfdz', text: 'Visit my GitHub →' }
+  }
+];
+
+const container = document.getElementById('terminal-sections');
+let sectionIdx = 0;
+
+// Randomly select a game for this session
+const games = ['snake', 'pong', 'pacman'];
+const selectedGame = games[Math.floor(Math.random() * games.length)];
+window.selectedGame = selectedGame;
+
+function moveCursorTo(target, cursor) {
+  if (!target || !cursor) return;
+  target.parentNode.insertBefore(cursor, target.nextSibling);
+}
+
+function typeSection(section, cb, cursor) {
+  const div = document.createElement('div');
+  div.style.margin = '2em 0 1em 0';
+  div.style.color = '#33FF33';
+  div.style.fontFamily = 'inherit';
+  div.style.fontSize = '1.2em';
+  const promptSpan = document.createElement('span');
+  div.appendChild(promptSpan);
+  container.appendChild(div);
+  let charIdx = 0;
+  function typePrompt() {
+    if (window.skipAnimations) {
+      promptSpan.textContent = section.prompt;
+      const ul = document.createElement('ul');
+      ul.style.paddingLeft = '0';
+      ul.style.listStyle = 'none';
+      const li = document.createElement('li');
+      li.style.marginBottom = '1em';
+      const a = document.createElement('a');
+      a.href = section.link.href;
+      a.target = '_blank';
+      a.textContent = section.link.text;
+      li.appendChild(a);
+      ul.appendChild(li);
+      container.appendChild(ul);
+      setTimeout(cb, 0);
+      return;
+    }
+    if (charIdx <= section.prompt.length) {
+      promptSpan.textContent = section.prompt.slice(0, charIdx);
+      if (cursor) moveCursorTo(promptSpan, cursor);
+      charIdx++;
+      setTimeout(typePrompt, 80);
+    } else {
+      // After prompt, show link
+      const ul = document.createElement('ul');
+      ul.style.paddingLeft = '0';
+      ul.style.listStyle = 'none';
+      const li = document.createElement('li');
+      li.style.marginBottom = '1em';
+      const a = document.createElement('a');
+      a.href = section.link.href;
+      a.target = '_blank';
+      a.textContent = '';
+      li.appendChild(a);
+      ul.appendChild(li);
+      container.appendChild(ul);
+      // Type the link text with cursor
+      let linkIdx = 0;
+      function typeLink() {
+        if (window.skipAnimations) {
+          a.textContent = section.link.text;
+          setTimeout(cb, 0);
+          return;
+        }
+        if (linkIdx <= section.link.text.length) {
+          a.textContent = section.link.text.slice(0, linkIdx);
+          if (cursor) moveCursorTo(a, cursor);
+          linkIdx++;
+          setTimeout(typeLink, 40);
+        } else {
+          setTimeout(cb, 600);
+        }
+      }
+      typeLink();
+    }
+  }
+  typePrompt();
+}
+
+window.typeAllSections = function() {
+  var cursor = document.querySelector('.footer-cursor');
+  if (window.skipAnimations) {
+    // Instantly reveal all sections
+    for (let i = sectionIdx; i < sections.length; i++) {
+      typeSection(sections[i], () => {}, cursor);
+    }
+    if (window.typeFooter) window.typeFooter(cursor);
+    return;
+  }
+  if (sectionIdx < sections.length) {
+    typeSection(sections[sectionIdx], () => {
+      sectionIdx++;
+      window.typeAllSections();
+    }, cursor);
+  } else {
+    if (window.typeFooter) window.typeFooter(cursor);
+  }
+}
+</script>
+<style>
+/* Keep cursor styles for links if needed */
+</style>
+{{ end }}

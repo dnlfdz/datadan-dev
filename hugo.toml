@@ -1,0 +1,4 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'DataDan'
+theme = 'retro-terminal' # Custom theme based on "Retro IBM Mainframe Terminal" prompt

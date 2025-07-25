@@ -1,0 +1,17 @@
+<!-- layouts/_default/single.html -->
+{{ define "main" }}
+  <!-- ASCII Art Section Divider -->
+  <pre style="color:#33FF33; margin:2em 0 1em 0;">
+  =====================================
+  </pre>
+  <h1 style="font-size:2em;">{{ .Title }}</h1>
+  <p style="color:#FFEB3B;">Published: {{ .Date.Format "2006-01-02" }}</p>
+  <article>
+    {{ .Content }}
+  </article>
+  <!-- ASCII Art Section Divider -->
+  <pre style="color:#33FF33; margin:2em 0 1em 0;">
+  =====================================
+  </pre>
+  <a href="/" class="button">&lt; Back to Home</a>
+{{ end }} 
